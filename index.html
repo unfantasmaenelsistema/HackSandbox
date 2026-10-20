@@ -1,65 +1,104 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sandbox de Retos de Hacking</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HackSandbox · 10 retos CTF en tu navegador</title>
+<meta name="description" content="Diez retos CTF para principiantes que se resuelven con las herramientas de desarrollador del navegador: Base64, consola, cookies, parámetros URL, JS ofuscado, Vigenère… Sin servidores ni instalaciones.">
+<link rel="icon" href="icono.png">
+<script>
+  // Tema antes de pintar, para que no parpadee
+  (function(){var t=null;try{t=localStorage.getItem('hs-theme');}catch(e){}
+  if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';
+  document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="assets/hs.css">
 </head>
 <body>
-    <div class="logo-container">
-        <img src="logo.png" alt="HackSandbox Logo">
+<div id="hs-header"></div>
+<main>
+  <article class="card">
+    <div class="hero">
+      <img src="icono.png" alt="Un Fantasma en el Sistema">
+      <div>
+        <h1 data-i18n="title">HackSandbox: 10 retos CTF en tu navegador</h1>
+        <p class="lead" data-i18n-html="lead"></p>
+      </div>
     </div>
 
-    <div class="container">
-        <div class="header">
-            <h1>Sandbox de Retos de Hacking 🕹️</h1>
-            <p>Una colección de 10 retos de ciberseguridad para principiantes, sin necesidad de servidores.</p>
-        </div>
-
-        <div class="challenges-list">
-            <a href="reto1.html" class="challenge-link">
-                <span class="challenge-icon material-icons">lock_open</span>
-                <span class="challenge-title">Reto 1: El Enigma de Base64</span>
-            </a>
-            <a href="reto2.html" class="challenge-link">
-                <span class="challenge-icon material-icons">remove_red_eye</span>
-                <span class="challenge-title">Reto 2: El Secreto del Inspector</span>
-            </a>
-            <a href="reto3.html" class="challenge-link">
-                <span class="challenge-icon material-icons">code</span>
-                <span class="challenge-title">Reto 3: El Puzzle de la Consola</span>
-            </a>
-            <a href="reto4.html" class="challenge-link">
-                <span class="challenge-icon material-icons">link</span>
-                <span class="challenge-title">Reto 4: El Código Escondido en la URL</span>
-            </a>
-            <a href="reto5.html" class="challenge-link">
-                <span class="challenge-icon material-icons">cookie</span>
-                <span class="challenge-title">Reto 5: El Secreto de las Cookies</span>
-            </a>
-            <a href="reto6.html" class="challenge-link">
-                <span class="challenge-icon material-icons">palette</span>
-                <span class="challenge-title">Reto 6: El Misterio del CSS Oculto</span>
-            </a>
-            <a href="reto7.html" class="challenge-link">
-                <span class="challenge-icon material-icons">javascript</span>
-                <span class="challenge-title">Reto 7: La Ofuscación de JavaScript</span>
-            </a>
-            <a href="reto8.html" class="challenge-link">
-                <span class="challenge-icon material-icons">text_fields</span>
-                <span class="challenge-title">Reto 8: El Puzzle Binario de los Comentarios</span>
-            </a>
-            <a href="reto9.html" class="challenge-link">
-                <span class="challenge-icon material-icons">vpn_key</span>
-                <span class="challenge-title">Reto 9: El Cifrado Vigenère de JavaScript</span>
-            </a>
-            <a href="reto10.html" class="challenge-link">
-                <span class="challenge-icon material-icons">sync_alt</span>
-                <span class="challenge-title">Reto 10: La Lógica Invertida</span>
-            </a>
-        </div>
+    <div class="howto">
+      <div><b data-i18n="s1t"></b><span data-i18n-html="s1"></span></div>
+      <div><b data-i18n="s2t"></b><span data-i18n-html="s2"></span></div>
+      <div><b data-i18n="s3t"></b><span data-i18n-html="s3"></span></div>
     </div>
+
+    <div class="progress">
+      <div class="bar"><i id="progBar" style="width:0"></i></div>
+      <span id="progTxt"></span>
+      <button type="button" class="btn ghost" id="resetBtn" data-i18n="reset"></button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="warn" data-i18n-html="warn"></div>
+  </article>
+</main>
+<div id="hs-footer"></div>
+<script src="assets/hs.js"></script>
+<script>
+'use strict';
+var RETOS = [
+  { icon: 'lock_open', es: ['El enigma de Base64', 'Codificación', 'Fácil'], en: ['The Base64 riddle', 'Encoding', 'Easy'] },
+  { icon: 'visibility', es: ['El secreto del inspector', 'HTML', 'Fácil'], en: ['The inspector’s secret', 'HTML', 'Easy'] },
+  { icon: 'terminal', es: ['El puzzle de la consola', 'Consola · ROT13', 'Fácil'], en: ['The console puzzle', 'Console · ROT13', 'Easy'] },
+  { icon: 'link', es: ['El código escondido en la URL', 'Parámetros URL', 'Fácil'], en: ['The code hidden in the URL', 'URL parameters', 'Easy'] },
+  { icon: 'cookie', es: ['El secreto de las cookies', 'Cookies', 'Media'], en: ['The cookie secret', 'Cookies', 'Medium'] },
+  { icon: 'palette', es: ['El misterio del CSS oculto', 'CSS', 'Fácil'], en: ['The hidden CSS mystery', 'CSS', 'Easy'] },
+  { icon: 'javascript', es: ['La ofuscación de JavaScript', 'JavaScript', 'Media'], en: ['JavaScript obfuscation', 'JavaScript', 'Medium'] },
+  { icon: 'memory', es: ['El puzzle binario', 'Binario', 'Media'], en: ['The binary puzzle', 'Binary', 'Medium'] },
+  { icon: 'vpn_key', es: ['El cifrado Vigenère', 'Criptografía clásica', 'Media'], en: ['The Vigenère cipher', 'Classical crypto', 'Medium'] },
+  { icon: 'lock', es: ['La caja fuerte del cliente', 'Lógica en el cliente', 'Media'], en: ['The client-side safe', 'Client-side logic', 'Medium'] }
+];
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function renderGrid(l) {
+  var done = HS.solved();
+  document.getElementById('grid').innerHTML = RETOS.map(function (r, i) {
+    var n = i + 1, d = r[l], ok = done.indexOf(n) > -1;
+    return '<a class="chal' + (ok ? ' done' : '') + '" href="reto' + n + '.html">' +
+      '<span class="material-icons" aria-hidden="true">' + r.icon + '</span>' +
+      '<div><div class="num">' + HS.t('reto') + ' ' + n + '</div><div class="ttl">' + esc(d[0]) + '</div>' +
+      '<div class="tags"><span class="tag">' + esc(d[1]) + '</span><span class="tag lvl">' + esc(d[2]) + '</span></div></div>' +
+      (ok ? '<span class="check" title="' + HS.t('solved') + '">✓</span>' : '') + '</a>';
+  }).join('');
+  var k = done.filter(function (x) { return x >= 1 && x <= HS.total; }).length;
+  document.getElementById('progBar').style.width = (k / HS.total * 100) + '%';
+  document.getElementById('progTxt').textContent = HS.t('progress').replace('{n}', k).replace('{t}', HS.total);
+}
+HS.init({
+  es: {
+    docTitle: '10 retos CTF en tu navegador', title: 'HackSandbox: 10 retos CTF en tu navegador',
+    lead: 'Una sandbox para dar tus primeros pasos en los retos <b>CTF</b> (<i>Capture The Flag</i>). Cada reto esconde una flag con el formato <code>flag_…</code> usando una técnica real del hacking web. No hace falta instalar nada: solo tu navegador y sus herramientas de desarrollador.',
+    s1t: '1 · Abre las herramientas', s1: 'Pulsa <b>F12</b> (o clic derecho → Inspeccionar). <b>Ctrl+U</b> enseña el código fuente.',
+    s2t: '2 · Encuentra la flag', s2: 'Puede estar en el HTML, la consola, las cookies, la URL, un script ofuscado…',
+    s3t: '3 · Valídala', s3: 'Escríbela en la caja del reto. Tu progreso se guarda en este navegador.',
+    progress: '{n} de {t} superados', reset: 'Reiniciar progreso',
+    warn: 'Los retos son pequeños a propósito: cada uno enseña una idea. Si te atascas, todos tienen dos pistas, y hay un <a href="https://github.com/unfantasmaenelsistema/HackSandbox/blob/main/writeup/WRITEUP.md" target="_blank" rel="noopener">writeup</a> con la solución paso a paso (¡spoilers!). Úsalos solo para practicar en esta sandbox o en plataformas que lo permitan.'
+  },
+  en: {
+    docTitle: '10 CTF challenges in your browser', title: 'HackSandbox: 10 CTF challenges in your browser',
+    lead: 'A sandbox to take your first steps in <b>CTF</b> (<i>Capture The Flag</i>) challenges. Each one hides a flag in the <code>flag_…</code> format using a real web hacking technique. Nothing to install: just your browser and its developer tools.',
+    s1t: '1 · Open the tools', s1: 'Press <b>F12</b> (or right-click → Inspect). <b>Ctrl+U</b> shows the page source.',
+    s2t: '2 · Find the flag', s2: 'It may be in the HTML, the console, the cookies, the URL, an obfuscated script…',
+    s3t: '3 · Submit it', s3: 'Type it in the challenge box. Your progress is saved in this browser.',
+    progress: '{n} of {t} solved', reset: 'Reset progress',
+    warn: 'The challenges are small on purpose: each one teaches one idea. If you get stuck, every challenge has two hints, and there is a <a href="https://github.com/unfantasmaenelsistema/HackSandbox/blob/main/writeup/WRITEUP.md" target="_blank" rel="noopener">writeup</a> with the step-by-step solution (spoilers!). Only practise this in this sandbox or on platforms that allow it. The challenges themselves use Spanish names for variables and cookies.'
+  },
+  onLang: renderGrid
+});
+document.getElementById('resetBtn').addEventListener('click', function () { HS.resetProgress(); });
+</script>
 </body>
 </html>
