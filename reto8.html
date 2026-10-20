@@ -1,24 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reto 8: El Puzzle Binario</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El puzzle binario · HackSandbox</title>
+<link rel="icon" href="icono.png">
+<script>
+  // Tema antes de pintar, para que no parpadee
+  (function(){var t=null;try{t=localStorage.getItem('hs-theme');}catch(e){}
+  if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';
+  document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hs.css">
 </head>
-<body>
-    <div class="challenge-container">
-        <h1>Reto 8: El Puzzle Binario</h1>
-        <p>Revisa el código fuente. La flag está oculta, pero en un formato que no puedes leer de inmediato.</p>
-
-        <div class="solution-area">
-            <input type="text" id="flagInput" placeholder="Introduce la flag aquí...">
-            <button onclick="checkFlag()">Verificar</button>
-        </div>
-        
-        <p id="feedbackMessage"></p>
-    </div>
-    
-    <script src="reto8_script.js"></script>
+<body data-reto="8">
+<div id="hs-header"></div>
+<main>
+  <div id="hs-top"></div>
+  <article class="card">
+    <h1 data-i18n="title">El puzzle binario</h1>
+    <div data-i18n-html="story"></div>
+    <!-- 01100110 01101100 01100001 01100111 01011111 01100010 01101001 01101110 01100001 01110010 01101001 01101111 01011111 00111000 01011111 01100010 01101001 01110100 01110011 -->
+    <div class="stage" data-i18n="bitsHint"></div>
+    <div id="hs-flag"></div>
+  </article>
+</main>
+<div id="hs-footer"></div>
+<script src="assets/hs.js"></script>
+<script src="js/reto8.js"></script>
 </body>
 </html>

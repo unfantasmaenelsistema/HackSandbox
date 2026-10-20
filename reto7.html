@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reto 7: La Ofuscación de JavaScript</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La ofuscación de JavaScript · HackSandbox</title>
+<link rel="icon" href="icono.png">
+<script>
+  // Tema antes de pintar, para que no parpadee
+  (function(){var t=null;try{t=localStorage.getItem('hs-theme');}catch(e){}
+  if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';
+  document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hs.css">
 </head>
-<body>
-    <div class="challenge-container">
-        <h1>Reto 7: La Ofuscación de JavaScript</h1>
-        <p>Un mensaje ha sido codificado para que no sea legible. ¿Puedes descifrarlo?</p>
-        <p>El mensaje está en el código, pero no es tan simple de leer como parece.</p>
-
-        <div class="solution-area">
-            <input type="text" id="flagInput" placeholder="Introduce la flag aquí...">
-            <button onclick="checkFlag()">Verificar</button>
-        </div>
-        
-        <p id="feedbackMessage"></p>
-    </div>
-    
-    <script src="reto7_script.js"></script>
+<body data-reto="7">
+<div id="hs-header"></div>
+<main>
+  <div id="hs-top"></div>
+  <article class="card">
+    <h1 data-i18n="title">La ofuscación de JavaScript</h1>
+    <div data-i18n-html="story"></div>
+    <div class="stage"><span class="lbl" data-i18n="scriptLbl"></span>js/reto7.js</div>
+    <div id="hs-flag"></div>
+  </article>
+</main>
+<div id="hs-footer"></div>
+<script src="assets/hs.js"></script>
+<script src="js/reto7.js"></script>
 </body>
 </html>

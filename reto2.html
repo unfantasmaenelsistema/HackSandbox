@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reto 2: El Secreto del Inspector</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El secreto del inspector · HackSandbox</title>
+<link rel="icon" href="icono.png">
+<script>
+  // Tema antes de pintar, para que no parpadee
+  (function(){var t=null;try{t=localStorage.getItem('hs-theme');}catch(e){}
+  if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';
+  document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/hs.css">
 </head>
-<body>
-    <div class="challenge-container">
-        <h1>Reto 2: El Secreto del Inspector</h1>
-        <p>Parece una página simple. Pero el verdadero mensaje no se ve a simple vista.</p>
-        <p>Usa tus herramientas de desarrollador para encontrar la clave.</p>
-        
-        <div class="hidden-flag" style="display: none;">
-            <p>La flag es flag_inspector_mode_on</p>
-        </div>
-
-        <div class="solution-area">
-            <input type="text" id="flagInput" placeholder="Introduce la flag aquí...">
-            <button onclick="checkFlag()">Verificar</button>
-        </div>
-        
-        <p id="feedbackMessage"></p>
+<body data-reto="2">
+<div id="hs-header"></div>
+<main>
+  <div id="hs-top"></div>
+  <article class="card">
+    <h1 data-i18n="title">El secreto del inspector</h1>
+    <div data-i18n-html="story"></div>
+    <div class="stage" data-i18n="nothing"></div>
+    <div class="hidden-flag" style="display: none;">
+      <p>&#128274; flag: flag_el_inspector_lo_ve_todo</p>
     </div>
-    
-    <script src="reto2_script.js"></script>
+    <div id="hs-flag"></div>
+  </article>
+</main>
+<div id="hs-footer"></div>
+<script src="assets/hs.js"></script>
+<script src="js/reto2.js"></script>
 </body>
 </html>
