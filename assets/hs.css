@@ -91,7 +91,7 @@ details.hint summary{cursor:pointer;font-weight:700;color:var(--muted)}
 details.hint[open] summary{color:var(--text);margin-bottom:6px}
 details.hint p{margin:0;font-size:15px}
 .learn{background:var(--okbg);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);border-radius:12px;padding:14px 16px;margin-top:16px}
-.learn b{color:var(--ok);display:block;margin-bottom:4px}
+.learn>b{color:var(--ok);display:block;margin-bottom:4px}
 .learn p{margin:0}
 .pager{display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
 .pager a{text-decoration:none;font-weight:700}
